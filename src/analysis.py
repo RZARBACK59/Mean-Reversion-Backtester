@@ -1,6 +1,7 @@
 # Analyse the strategy and plot it
 import numpy as np
 import matplotlib.pyplot as plt
+import yfinance as yf
 
 def compute_stats(data):
     strat_returns = data['StrategyReturns']
@@ -22,14 +23,18 @@ def compute_stats(data):
         "Max Drawdown": max_dd
     }
 
-def plot_equity_curve(data):
+def plot_equity_curve(data, ticker):
     # Calculates equity (the value of our holdings)
     equity = (1 + data['StrategyReturns']).cumprod()
 
-    # plot it :p
+    # fetches the company's name (for the graph)
+    ticker_obj = yf.Ticker(ticker)
+    name = ticker_obj.info['longName']  # or 'shortName'
+
+    # plot graph
     plt.figure(figsize=(10,5))
     plt.plot(equity)
-    plt.title("Strategy Equity Curve")
+    plt.title(f"RSI Strategy Equity Curve [{name}]")
     plt.xlabel("Date")
     plt.ylabel("Equity")
     plt.show()

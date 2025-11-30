@@ -5,11 +5,12 @@ from src.indicators import compute_rsi
 from src.backtester import backtest_rsi
 from src.analysis import compute_stats, plot_equity_curve
 
-data = get_data("SPY")
+ticker = "KO"
+
+data = get_data(ticker)
 data = compute_rsi(data)
 data = backtest_rsi(data)
-
 stats = compute_stats(data)
-print(stats)
 
-plot_equity_curve(data)
+print(stats)
+plot_equity_curve(data, ticker)
