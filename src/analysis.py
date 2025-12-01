@@ -28,7 +28,8 @@ def plot_equity_curve(data, ticker):
     import yfinance as yf
 
     # Calculate equity curve
-    equity = (1 + data['StrategyReturns']).cumprod()
+    buy_and_hold_equity = (1 + data['Return']).cumprod()
+    Strategy_equity = (1 + data['StrategyReturns']).cumprod()
 
     # Fetch company name
     ticker_obj = yf.Ticker(ticker)
@@ -38,12 +39,12 @@ def plot_equity_curve(data, ticker):
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
 
     # --- Subplot 1: Close Price ---
-    ax1.plot(data.index, data['Close'])
-    ax1.set_title(f"{name} — Close Price")
-    ax1.set_ylabel("Price")
+    ax1.plot(data.index, buy_and_hold_equity)
+    ax1.set_title(f"{name} — Buy & Hold Equity Curve")
+    ax1.set_ylabel("Equity")
 
     # --- Subplot 2: Equity Curve ---
-    ax2.plot(data.index, equity)
+    ax2.plot(data.index, Strategy_equity)
     ax2.set_title(f"{name} — RSI Strategy Equity Curve")
     ax2.set_xlabel("Date")
     ax2.set_ylabel("Equity")
