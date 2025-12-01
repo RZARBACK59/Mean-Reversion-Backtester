@@ -24,17 +24,29 @@ def compute_stats(data):
     }
 
 def plot_equity_curve(data, ticker):
-    # Calculates equity (the value of our holdings)
+    import matplotlib.pyplot as plt
+    import yfinance as yf
+
+    # Calculate equity curve
     equity = (1 + data['StrategyReturns']).cumprod()
 
-    # fetches the company's name (for the graph)
+    # Fetch company name
     ticker_obj = yf.Ticker(ticker)
-    name = ticker_obj.info['longName']  # or 'shortName'
+    name = ticker_obj.info.get('longName', ticker)  # fallback to ticker
 
-    # plot graph
-    plt.figure(figsize=(10,5))
-    plt.plot(equity)
-    plt.title(f"RSI Strategy Equity Curve [{name}]")
-    plt.xlabel("Date")
-    plt.ylabel("Equity")
+    # Create subplots
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
+
+    # --- Subplot 1: Close Price ---
+    ax1.plot(data.index, data['Close'])
+    ax1.set_title(f"{name} — Close Price")
+    ax1.set_ylabel("Price")
+
+    # --- Subplot 2: Equity Curve ---
+    ax2.plot(data.index, equity)
+    ax2.set_title(f"{name} — RSI Strategy Equity Curve")
+    ax2.set_xlabel("Date")
+    ax2.set_ylabel("Equity")
+
+    plt.tight_layout()
     plt.show()
