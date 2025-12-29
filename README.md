@@ -1,4 +1,5 @@
 # Mean-Reversion-Backtester
+[View the report (PDF)](Mean-Reversion-Backtester.pdf)
 
 ## What it does
 This is a (very) simple script that tries to implement a trading strategy over the past 10 years of data (start of 2015 until now). This strategy uses an indicator called RSI (relative strength index), which is a momentum indicator used to detect if a stock is overbought or oversold. It is calculated by the following equation:
